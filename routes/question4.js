@@ -6,14 +6,16 @@ var router = express.Router();
 router.post('/stringcompression/:mode', function(req, res) {
     var data = req.body.data;
     var mode = req.params.mode;
-    console.log(data, mode);
     var encoded = []
     if(mode == 'RLE') {
         var prev = data[0];
         var count = 1;
         for (var i = 1; i < data.length; i++) {
             if (data[i] != prev) {
-                encoded.push([count, prev]);
+                if (count == 1)
+                    encoded.push([prev]);
+                else
+                    encoded.push([count, prev]);
                 count = 1;
                 prev = data[i];
             }
@@ -23,7 +25,6 @@ router.post('/stringcompression/:mode', function(req, res) {
         encoded.push(count.toString());
         encoded.push(prev.toString());
         encoded = encoded.toString();
-        encoded = encoded.replace(/1/g, "");
         encoded = encoded.replace(/,/g, "");
 
         var len = encoded.length * 8;
