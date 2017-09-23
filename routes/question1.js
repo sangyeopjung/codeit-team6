@@ -191,7 +191,7 @@ function countingSort(arr, min, max) {
     for (i=0; i < arr.length; i++) {
         count[arr[i]]++;
     }
-    for (i = max -1; i > min; i--) {
+    for (i = min; i <= max; i++) {
         while (count[i]-- > 0) {
             arr[z++] = i;
         }
@@ -201,7 +201,6 @@ function countingSort(arr, min, max) {
 }
 
 router.post('/sort', function(req, res, next) {
-    console.log(req.body);
     res.connection.setTimeout(10000);
     var sort = req.body;
     for (var i = 0; i < sort.length; i++)
