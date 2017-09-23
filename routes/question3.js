@@ -63,26 +63,6 @@ router.post('/releaseSchedule', function(req, res, next) {
       end: convertDate(task.split(';')[2])
     };
     tasks.push(task_timeframe);
-    //console.log(comparing_tf.start + "   " + comparing_tf.end);
-    /*for (var ai = 0; ai < available_timeframe.length; ai++){
-      var curr_tf = available_timeframe[ai];
-      //Check if it crosses the lower bound
-      if(curr_tf.start < comparing_tf.end && curr_tf.start > comparing_tf.start){
-        curr_tf.start = comparing_tf.start;
-      }
-      else if(curr_tf.end > comparing_tf.start && curr_tf.end < comparing_tf.end){
-        curr_tf.end = comparing_tf.end;
-      }
-      else if(curr_tf.start < comparing_tf.start && curr_tf.end > comparing_tf.end){
-        var ending_time = curr_tf.end;
-        curr_tf.end = comparing_tf.start;
-        var new_tf = {
-          start: comparing_tf.end,
-          end: ending_time
-        };
-        available_timeframe.push(new_tf);
-      }
-    }*/
   }
   console.log(initial_tf.start + "   " + initial_tf.end);
   for (var i = 0; i < tasks.length; i++){
@@ -91,7 +71,7 @@ router.post('/releaseSchedule', function(req, res, next) {
   var max_len = 0;
   var time_run = initial_tf.start;
   var g_flag = 0;
-  for (var j = 0; j < 100; j++){
+  while(g_flag == 0){
     console.log("Original: " + time_run);
     for (var i = 0; i < tasks.length; i++){
       if (time_run < tasks[i].end && time_run > tasks[i].start){
@@ -115,18 +95,18 @@ router.post('/releaseSchedule', function(req, res, next) {
       max_len = len;
     }
     time_run = new_timerun;
-    console.log("Last: " + time_run);
-    console.log(initial_tf.end);
+    console.log("New Timerun: " + time_run);
+    console.log("------------------------------------------")
     //Check if there are any remaining timeframes to check
-    var flag = 1;
-    /*for (var i = 0; i < tasks.length; i++){
-      if (tasks[i].start > new_timerun && tasks[i].start < initial_tf.end){
-        flag = 0;
+    var flag = 0;
+    for (var i = 0; i < tasks.length; i++){
+      if (tasks[i].start > time_run && tasks[i].start < initial_tf.end){
+        flag = 1;
       }
     }
-    if (flag == 1){
+    if (flag == 0){
       g_flag = 1;
-    }*/
+    }
   }
   /*for (var i = 0; i < available_timeframe.length; i++){
     console.log(i + ": " + available_timeframe[i].start + " -> " + available_timeframe[i].end);
