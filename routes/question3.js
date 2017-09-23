@@ -31,7 +31,12 @@ router.post('/releaseSchedule', function(req, res, next) {
     else{
       offset_val = parseInt(string_input[25]);
     }
-    return offset_val;
+    if (string_input[23] == '-'){
+      return 0 - offset_val;
+    }
+    else{
+      return offset_val;
+    }
   }
 
   //Function that calculates the time length
