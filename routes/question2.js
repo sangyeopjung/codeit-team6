@@ -3,6 +3,7 @@ var _ = require('underscore');
 var router = express.Router();
 
 router.post('/heist', function(req, res, next) {
+  console.log(req.body);
   var maxWeight = req.body.maxWeight;
   var vault = req.body.vault;
   for (var i = 0; i < vault.length; i++) {
