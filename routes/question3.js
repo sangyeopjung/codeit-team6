@@ -91,7 +91,7 @@ router.post('/releaseSchedule', function(req, res, next) {
   var max_len = 0;
   var time_run = initial_tf.start;
   var g_flag = 0;
-  for (var j = 0; j < 500; j++){
+  for (var j = 0; j < 100; j++){
     console.log("Original: " + time_run);
     for (var i = 0; i < tasks.length; i++){
       if (time_run < tasks[i].end && time_run > tasks[i].start){
