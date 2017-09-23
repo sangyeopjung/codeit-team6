@@ -11,8 +11,9 @@
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
     "express": "~4.15.2",
-    "morgan": "~1.8.1",
     "lzwcompress": "~0.2.4",
+    "morgan": "~1.8.1",
+    "quadratic-roots": "^1.0.0",
     "serve-favicon": "~2.4.2",
     "underscore": "~1.8.3"
   }
