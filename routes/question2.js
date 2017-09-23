@@ -7,7 +7,7 @@ router.post('/heist', function(req, res, next) {
   var maxWeight = req.body.maxWeight;
   var vault = req.body.vault;
 
-  if (vault.length == 0)
+  if (vault.length == 0 || maxWeight == 0)
     res.status(200).send({"heist":0});
 
   for (var i = 0; i < vault.length; i++) {
