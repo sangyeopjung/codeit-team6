@@ -60,7 +60,7 @@ router.post('/releaseSchedule', function(req, res, next) {
     console.log(hour);
     if (hour < 0){
       day = day - 1;
-      hour = hour + 60;
+      hour = hour + 24;
     }
     else if (hour >= 24){
       day = day + 1;
@@ -117,11 +117,11 @@ router.post('/releaseSchedule', function(req, res, next) {
   }
 
   //Output the initial param & tasks timeframes
-  /*console.log(initial_tf.start + "   " + initial_tf.end);
+  console.log(initial_tf.start + "   " + initial_tf.end);
   for (var i = 0; i < tasks.length; i++){
     console.log(tasks[i].start + "   " + tasks[i].end);
   }
-  */
+
   //Find the maximum vacant timeframe
   var max_len = 0;
 
