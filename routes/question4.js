@@ -35,14 +35,18 @@ router.post('/stringcompression/:mode', function(req, res) {
             }
         });
     } else if (mode == 'LZW') {
+        console.log('lzw', req.body.data);
         encoded = lzwcompress.pack(data);
+        console.log(encoded);
         var len = (encoded.length-1) * 12;
+        len += 8;
         res.format({
             'text/plain': function() {
                 res.send(len.toString());
             }
         });
     } else if (mode == 'WDE') {
+        console.log('wde', req.body.data)
         var strArr = data.split(/(\s+)/);
         var dict = {};
         var numNonword = 0;
