@@ -27,7 +27,7 @@ router.post('/stringcompression/:mode', function(req, res) {
         encoded = encoded.toString();
         encoded = encoded.replace(/,/g, "");
 
-        var len = (encoded.length-1) * 8;
+        var len = encoded.length * 8;
         res.format({
             'text/plain': function() {
                 //res.send(encoded);
@@ -39,7 +39,6 @@ router.post('/stringcompression/:mode', function(req, res) {
         encoded = lzwcompress.pack(data);
         console.log(encoded);
         var len = (encoded.length-1) * 12;
-        len += 8;
         res.format({
             'text/plain': function() {
                 res.send(len.toString());
