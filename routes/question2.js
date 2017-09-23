@@ -29,7 +29,6 @@ router.post('/heist', function(req, res, next) {
   };
 
   gasung.sort(sort('Gasung', true, parseInt));
-
   console.log(gasung);
 
   for(var w = 0; w < 10000; w++){
@@ -44,7 +43,6 @@ router.post('/heist', function(req, res, next) {
 
     heist = heist + gasung[q].Gasung;
     t++;
-    console.log(heist);
   }
 
   var response = { "heist" : heist };
