@@ -33,21 +33,162 @@ router.post('/releaseSchedule', function(req, res, next) {
     var second = parseInt(time.split(':')[2]);
     var millisecond = parseInt(mili_offset.slice(0, 3));
     var offset_str = mili_offset.slice(3, 8);
-    var offset;
+    var offset_hr, offset_min;
     if (offset_str[0] == 'Z'){
-      offset = 0;
+      offset_hr = 0;
+      offset_min = 0;
     }
     else if (offset_str[0] == '+'){
-      offset = parseInt(offset_str.slice(1, 3));
+      offset_hr = parseInt(offset_str.slice(1, 3));
+      offset_min = parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
     }
     else if (offset_str[0] == '-'){
-      offset = 0 - parseInt(offset_str.slice(1, 3));
+      offset_hr = 0 - parseInt(offset_str.slice(1, 3));
+      offset_min = 0 - parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
     }
-    hour = hour - offset;
+    console.log(offset_hr + "--" + offset_min);
+    minute = minute - offset_min;
+    if (minute < 0){
+      hour = hour - 1;
+      minute = minute + 60;
+    }
+    else if (minute >= 60){
+      hour = hour + 1;
+      minute = minute - 60;
+    }
+    hour = hour - offset_hr;
+    console.log(hour);
     if (hour < 0){
       day = day - 1;
       hour = hour + 24;
     }
+    else if (hour >= 24){
+      day = day + 1;
+      hour = hour - 24;
+    }
+    //deal with days
+    if (month == 1){
+      if (day == 0){
+        month = 12;
+        day = 31;
+      }
+      else if (day == 32){
+        month = 2;
+        day = 1;
+      }
+    }
+    else if (month == 2){
+      if (day == 0){
+        month = 1;
+        day = 31;
+      }
+      else if (day == 29){
+        month = 3;
+        day = 1;
+      }
+    }
+    else if (month == 3){
+      if (day == 0){
+        month = 2;
+        day = 28;
+      }
+      else if (day == 32){
+        month = 4;
+        day = 1;
+      }
+    }
+    else if (month == 4){
+      if (day == 0){
+        month = 3;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 5;
+        day = 1;
+      }
+    }
+    else if (month == 5){
+      if (day == 0){
+        month = 4;
+        day = 30;
+      }
+      else if (day == 32){
+        month = 6;
+        day = 1;
+      }
+    }
+    else if (month == 6){
+      if (day == 0){
+        month = 5;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 7;
+        day = 1;
+      }
+    }
+    else if (month == 7){
+      if (day == 0){
+        month = 6;
+        day = 30;
+      }
+      else if (day == 32){
+        month = 8;
+        day = 1;
+      }
+    }
+    else if (month == 8){
+      if (day == 0){
+        month = 7;
+        day = 31;
+      }
+      else if (day == 32){
+        month = 9;
+        day = 1;
+      }
+    }
+    else if (month == 9){
+      if (day == 0){
+        month = 8;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 10;
+        day = 1;
+      }
+    }
+    else if (month == 10){
+      if (day == 0){
+        month = 9;
+        day = 30;
+      }
+      else if (day == 32){
+        month = 11;
+        day = 1;
+      }
+    }
+    else if (month == 11){
+      if (day == 0){
+        month = 10;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 12;
+        day = 1;
+      }
+    }
+    else {
+      if (day == 0){
+        month = 11;
+        day = 30;
+      }
+      else if (day == 32){
+        year++;
+        month = 1;
+        day = 1;
+      }
+    }
+    console.log("New Time: " + hour + ":" + minute);
     return new Date(year, month, day, hour, minute, second, millisecond);
   }
 
@@ -98,11 +239,11 @@ router.post('/releaseSchedule', function(req, res, next) {
   }
 
   //Output the initial param & tasks timeframes
-  /*console.log(initial_tf.start + "   " + initial_tf.end);
+  console.log(initial_tf.start + "   " + initial_tf.end);
   for (var i = 0; i < tasks.length; i++){
     console.log(tasks[i].start + "   " + tasks[i].end);
   }
-  */
+
   //Find the maximum vacant timeframe
   var max_len = 0;
 
