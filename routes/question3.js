@@ -67,87 +67,127 @@ router.post('/releaseSchedule', function(req, res, next) {
       hour = hour - 24;
     }
     //deal with days
-    if (day == 0){
-      if (month == 3){
-        day = 28;
+    if (month == 1){
+      if (day == 0){
+        month = 12;
+        day = 31;
+      }
+      else if (day == 32){
         month = 2;
-      }
-      else if (month >= 1 && month <= 7){
-        if (month % 2 == 1){
-          day = 30;
-          if (month == 1){
-            month = 12;
-          }
-          else{
-            month = month - 1;
-          }
-        }
-        else{
-          day = 31;
-          month = month - 1;
-        }
-      }
-      else {
-        if (month % 2 == 1){
-          day = 31;
-          month = month - 1;
-        }
-        else{
-          day = 30;
-          month = month - 1;
-        }
+        day = 1;
       }
     }
-    if (month == 1 && day == 32){
-      day = 1;
-      month++;
+    else if (month == 2){
+      if (day == 0){
+        month = 1;
+        day = 31;
+      }
+      else if (day == 29){
+        month = 3;
+        day = 1;
+      }
     }
-    if (month == 2 && day == 29){
-      day = 1;
-      month++;
+    else if (month == 3){
+      if (day == 0){
+        month = 2;
+        day = 28;
+      }
+      else if (day == 32){
+        month = 4;
+        day = 1;
+      }
     }
-    if (month == 3 && day == 32){
-      day = 1;
-      month++;
+    else if (month == 4){
+      if (day == 0){
+        month = 3;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 5;
+        day = 1;
+      }
     }
-    if (month == 4 && day == 31){
-      day = 1;
-      month++;
+    else if (month == 5){
+      if (day == 0){
+        month = 4;
+        day = 30;
+      }
+      else if (day == 32){
+        month = 6;
+        day = 1;
+      }
     }
-    if (month == 5 && day == 32){
-      day = 1;
-      month++;
+    else if (month == 6){
+      if (day == 0){
+        month = 5;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 7;
+        day = 1;
+      }
     }
-    if (month == 6 && day == 31){
-      day = 1;
-      month++;
+    else if (month == 7){
+      if (day == 0){
+        month = 6;
+        day = 30;
+      }
+      else if (day == 32){
+        month = 8;
+        day = 1;
+      }
     }
-    if (month == 7 && day == 32){
-      day = 1;
-      month++;
+    else if (month == 8){
+      if (day == 0){
+        month = 7;
+        day = 31;
+      }
+      else if (day == 32){
+        month = 9;
+        day = 1;
+      }
     }
-    if (month == 8 && day == 32){
-      day = 1;
-      month++;
+    else if (month == 9){
+      if (day == 0){
+        month = 8;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 10;
+        day = 1;
+      }
     }
-    if (month == 9 && day == 31){
-      day = 1;
-      month++;
+    else if (month == 10){
+      if (day == 0){
+        month = 9;
+        day = 30;
+      }
+      else if (day == 32){
+        month = 11;
+        day = 1;
+      }
     }
-    if (month == 10 && day == 32){
-      day = 1;
-      month++;
+    else if (month == 11){
+      if (day == 0){
+        month = 10;
+        day = 31;
+      }
+      else if (day == 31){
+        month = 12;
+        day = 1;
+      }
     }
-    if (month == 11 && day == 31){
-      day = 1;
-      month++;
+    else {
+      if (day == 0){
+        month = 11;
+        day = 30;
+      }
+      else if (day == 32){
+        year++;
+        month = 1;
+        day = 1;
+      }
     }
-    if (month == 12 && day == 32){
-      day = 1;
-      month = 1;
-      year++;
-    }
-
     console.log("New Time: " + hour + ":" + minute);
     return new Date(year, month, day, hour, minute, second, millisecond);
   }
