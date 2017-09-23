@@ -16,7 +16,7 @@ router.post('/heist', function(req, res, next) {
     })
   }
 
-  var sort_by = function(field, reverse, primer){
+  var sort = function(field, reverse, primer){
      var key = primer ?
          function(x) {return primer(x[field])} :
          function(x) {return x[field]};
@@ -28,7 +28,7 @@ router.post('/heist', function(req, res, next) {
        }
   }
 
-  gasung.sort(sort_by('Gasung', true, parseInt));
+  gasung.sort(sort('Gasung', true, parseInt));
 
   console.log(gasung);
 
@@ -48,6 +48,7 @@ router.post('/heist', function(req, res, next) {
   }
   //res.get(max)
   var response = { "heist" : heist }
+
   res.status(200).send(response);
 
 });
