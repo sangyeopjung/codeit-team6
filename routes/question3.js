@@ -79,16 +79,16 @@ router.post('/releaseSchedule', function(req, res, next) {
 
   //Initialize the starting point of time_run (working pointer)
   var time_run = initial_tf.start;
-  console.log("Original: " + time_run);
+  //console.log("Original: " + time_run);
   for (var i = 0; i < tasks.length; i++){
     if (time_run < tasks[i].end && time_run > tasks[i].start){
       time_run = tasks[i].end;
     }
   }
-  console.log("Updated: " + time_run);
+  //console.log("Updated: " + time_run);
 
   //Start the loop
-  console.log("Start Loop! \n");
+  //console.log("Start Loop! \n");
   while(true){
     var next_timeframe = initial_tf.end;
     var new_timerun;
@@ -99,43 +99,35 @@ router.post('/releaseSchedule', function(req, res, next) {
         new_timerun = tasks[i].end;
       }
     }
-    console.log(next_timeframe)
+    //console.log(next_timeframe)
     var len = get_time_length(time_run, next_timeframe);
-    console.log("Length: " + len);
+    //console.log("Length: " + len);
     if (len > max_len){
       max_len = len;
     }
     //Check case where there is no such timeframe in the initial param.
     if (next_timeframe == initial_tf.end){
-      console.log("There exists no more timeframe inside the bound.")
+      //console.log("There exists no more timeframe inside the bound.")
       break;
     }
     //Update the timerun, and perform extension of the timerun
     time_run = new_timerun;
-    console.log("Original: " + time_run);
+    //console.log("Original: " + time_run);
     for (var i = 0; i < tasks.length; i++){
       if (time_run < tasks[i].end && time_run > tasks[i].start){
         time_run = tasks[i].end;
       }
     }
-    console.log("Updated: " + time_run);
+    /*console.log("Updated: " + time_run);
     console.log("New Timerun: " + time_run);
-    console.log("------------------------------------------")
+    console.log("------------------------------------------")*/
     //Check if the new timerun exceeds the upper bound
     if (time_run >= initial_tf.end){
-      console.log("The next timeframe exceeds the upper bound.")
+      //console.log("The next timeframe exceeds the upper bound.")
       break;
     }
   }
-  /*for (var i = 0; i < available_timeframe.length; i++){
-    console.log(i + ": " + available_timeframe[i].start + " -> " + available_timeframe[i].end);
-  }*/
-  /*var time_lengths = []
-  for (var i = 0; i < available_timeframe.length; i++){
-      time_lengths.push(get_time_length(available_timeframe[i].start, available_timeframe[i].end));
-  }
-  var ans = Math.max.apply(null, time_lengths);
-  */
+  console.log(max_len.toString());
   res.send(max_len.toString());
 });
 
