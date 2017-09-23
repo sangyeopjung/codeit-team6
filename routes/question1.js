@@ -195,7 +195,7 @@ router.post('/sort', function(req, res, next) {
     //sort = countingSort(sort, 0, 20010);
     //sort = radixSortLSD(sort);
     //sort = sortLSD(sort, 7);
-    sort = radixBucketSort(sort);
+    radixBucketSort(sort);
 
     for (var i = 0; i < sort.length; i++)
         sort[i] -= 10000;
