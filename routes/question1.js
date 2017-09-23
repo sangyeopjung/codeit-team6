@@ -1,14 +1,42 @@
 var express = require('express');
-var quickSort = require('js-quicksort')
 var router = express.Router();
 
-/* GET users listing. */
+function quickSort(arr)
+{
+    var i = 0;
+    var j = arr.length;
+    var tmp;
+    var pivotidx = (left + right) / 2;
+    var pivot = parseInt(arr[pivotidx.toFixed()]);
+    /* partition */
+    while (i <= j)
+    {
+        while (parseInt(arr[i]) < pivot)
+            i++;
+        while (parseInt(arr[j]) > pivot)
+            j--;
+        if (i <= j)
+        {
+            tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+            i++;
+            j--;
+        }
+    }
+
+    /* recursion */
+    if (left < j)
+        quickSort(arr, 0, j);
+    if (i < right)
+        quickSort(arr, i, arr.length);
+    return arr;
+}
+
 router.post('/sort', function(req, res, next) {
   console.log(req.body);
-  var input = req.body;
-  input.sort();
-  console.log(input);
-  res.send(input);
+  var out = req.body;
+  res.send(quickSort(out));
 });
 
 module.exports = router;
