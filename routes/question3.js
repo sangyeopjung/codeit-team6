@@ -6,7 +6,7 @@ router.post('/releaseSchedule', function(req, res, next) {
   console.log(req.body);
   //Function that converts string into date obj.
   function convertDate(string_input){
-    var day, month, year, hour, minute, second, millisecond, offset_val;
+    /*var day, month, year, hour, minute, second, millisecond, offset_val;
     day = parseInt(string_input.slice(0, 2));
     month =  parseInt(string_input.slice(3, 5));
     year =  parseInt(string_input.slice(6, 10));
@@ -17,6 +17,33 @@ router.post('/releaseSchedule', function(req, res, next) {
     offset_val = offset(string_input);
     console.log(offset_val);
     hour = hour - offset_val;
+    if (hour < 0){
+      day = day - 1;
+      hour = hour + 24;
+    }*/
+    var date = string_input.split(' ')[0];
+    var time = string_input.split(' ')[1].split('.')[0];
+    var mili_offset = string_input.split(' ')[1].split('.')[1];
+
+    var year = parseInt(date.split('-')[2]);
+    var month = parseInt(date.split('-')[1]);
+    var day = parseInt(date.split('-')[0]);
+    var hour = parseInt(time.split(':')[0]);
+    var minute = parseInt(time.split(':')[1]);
+    var second = parseInt(time.split(':')[2]);
+    var millisecond = parseInt(mili_offset.slice(0, 3));
+    var offset_str = mili_offset.slice(3, 8);
+    var offset;
+    if (offset_str[0] == 'Z'){
+      offset = 0;
+    }
+    else if (offset_str[0] == '+'){
+      offset = parseInt(offset_str.slice(1, 3));
+    }
+    else if (offset_str[0] == '-'){
+      offset = 0 - parseInt(offset_str.slice(1, 3));
+    }
+    hour = hour - offset;
     if (hour < 0){
       day = day - 1;
       hour = hour + 24;
@@ -132,6 +159,7 @@ router.post('/releaseSchedule', function(req, res, next) {
   var max_num = max_len.toFixed(0);
   console.log(max_num.toString());
   res.send(max_num.toString());
+
 });
 
 module.exports = router;
