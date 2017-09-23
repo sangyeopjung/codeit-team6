@@ -66,6 +66,88 @@ router.post('/releaseSchedule', function(req, res, next) {
       day = day + 1;
       hour = hour - 24;
     }
+    //deal with days
+    if (day == 0){
+      if (month == 3){
+        day = 28;
+        month = 2;
+      }
+      else if (month >= 1 && month <= 7){
+        if (month % 2 == 1){
+          day = 30;
+          if (month == 1){
+            month = 12;
+          }
+          else{
+            month = month - 1;
+          }
+        }
+        else{
+          day = 31;
+          month = month - 1;
+        }
+      }
+      else {
+        if (month % 2 == 1){
+          day = 31;
+          month = month - 1;
+        }
+        else{
+          day = 30;
+          month = month - 1;
+        }
+      }
+    }
+    if (month == 1 && day == 32){
+      day = 1;
+      month++;
+    }
+    if (month == 2 && day == 29){
+      day = 1;
+      month++;
+    }
+    if (month == 3 && day == 32){
+      day = 1;
+      month++;
+    }
+    if (month == 4 && day == 31){
+      day = 1;
+      month++;
+    }
+    if (month == 5 && day == 32){
+      day = 1;
+      month++;
+    }
+    if (month == 6 && day == 31){
+      day = 1;
+      month++;
+    }
+    if (month == 7 && day == 32){
+      day = 1;
+      month++;
+    }
+    if (month == 8 && day == 32){
+      day = 1;
+      month++;
+    }
+    if (month == 9 && day == 31){
+      day = 1;
+      month++;
+    }
+    if (month == 10 && day == 32){
+      day = 1;
+      month++;
+    }
+    if (month == 11 && day == 31){
+      day = 1;
+      month++;
+    }
+    if (month == 12 && day == 32){
+      day = 1;
+      month = 1;
+      year++;
+    }
+
     console.log("New Time: " + hour + ":" + minute);
     return new Date(year, month, day, hour, minute, second, millisecond);
   }
