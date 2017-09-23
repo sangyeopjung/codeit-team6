@@ -27,7 +27,7 @@ router.post('/stringcompression/:mode', function(req, res) {
         encoded = encoded.toString();
         encoded = encoded.replace(/,/g, "");
 
-        var len = encoded.length * 8;
+        var len = (encoded.length-1) * 8;
         res.format({
             'text/plain': function() {
                 //res.send(encoded);
@@ -69,7 +69,7 @@ router.post('/stringcompression/:mode', function(req, res) {
             dictSize += (8*word.length);
         }
 
-        var len = (numWord + numNonword) * 12 + dictSize;
+        var len = (numWord + numNonword) * 12 + dictSize + 88;
 
         res.format({
             'text/plain': function() {
