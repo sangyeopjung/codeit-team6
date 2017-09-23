@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/heist', function(req, res, next) {
-  var max = req.body.maxWeight
+  var max = req.body.maxWeight;
   var q = 0;
   var t = 0;
   var gasung = [];
@@ -13,7 +13,7 @@ router.post('/heist', function(req, res, next) {
     gasung.push({
       "Weight" :  req.body.vault[i].weight,
       "Gasung" :  req.body.vault[i].value / req.body.vault[i].weight
-    })
+    });
   }
 
   var sort = function(field, reverse, primer){
@@ -26,7 +26,7 @@ router.post('/heist', function(req, res, next) {
      return function (a, b) {
          return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
        }
-  }
+  };
 
   gasung.sort(sort('Gasung', true, parseInt));
 
@@ -43,11 +43,11 @@ router.post('/heist', function(req, res, next) {
     }
 
     heist = heist + gasung[q].Gasung;
-    t++
+    t++;
     console.log(heist);
   }
-  //res.get(max)
-  var response = { "heist" : heist }
+
+  var response = { "heist" : heist };
 
   res.status(200).send(response);
 
