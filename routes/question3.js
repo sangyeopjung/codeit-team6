@@ -51,10 +51,18 @@ router.post('/releaseSchedule', function(req, res, next) {
       hour = hour - 1;
       minute = minute + 60;
     }
+    else if (minute >= 60){
+      hour = hour + 1;
+      minute = minute - 60;
+    }
     hour = hour - offset_hr;
     if (hour < 0){
       day = day - 1;
       hour = hour + 60;
+    }
+    else if (hour >= 24){
+      day = day + 1;
+      hour = hour - 60;
     }
     return new Date(year, month, day, hour, minute, second, millisecond);
   }
