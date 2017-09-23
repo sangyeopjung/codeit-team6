@@ -112,8 +112,10 @@ router.post('/calculateemptyarea', function(req, res, next) {
       }
       */
 //    }else if(req.body.hasOwnProperty("circle") == true){
-
-
+console.log("container area " + container_area,
+            "child area " + child_area,
+            "x - difference " +  x_diff,
+            "y - difference " + y_diff);
 
   var response = [(container_area - (x_diff*y_diff)).toString()]
 //  res.send(response.toString());
