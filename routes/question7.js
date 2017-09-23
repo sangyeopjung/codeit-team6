@@ -209,10 +209,18 @@ else if(req.body.hasOwnProperty("circle") == true){
       }
       */
 //    }else if(req.body.hasOwnProperty("circle") == true){
+console.log("container area " + container_area,
+            " container x " +  container_x,
+            " container y " +  container_y,
+            " container width " +  container_width,
+            " container height " +  container_height,      
+            " child x " +  child_x,
+            " child y " +  child_y,
+            " child width " +  child_width,
+            " child height " +  child_height,
+            "y - difference " + y_diff);
 
-
-
-  var response = [(container_area - (x_diff*y_diff)).toString()]
+  var response = [(container_area - (x_diff*y_diff)).toString()];
 //  res.send(response.toString());
   res.send(response);
 
