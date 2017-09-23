@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-function quickSort(arr)
+function quickSort(arr, left, right)
 {
-    var i = 0;
-    var j = arr.length;
+    var i = left;
+    var j = right;
     var tmp;
     var pivotidx = (left + right) / 2;
     var pivot = parseInt(arr[pivotidx.toFixed()]);
@@ -27,16 +27,16 @@ function quickSort(arr)
 
     /* recursion */
     if (left < j)
-        quickSort(arr, 0, j);
+        quickSort(arr, left, j);
     if (i < right)
-        quickSort(arr, i, arr.length);
+        quickSort(arr, i, right);
     return arr;
 }
 
 router.post('/sort', function(req, res, next) {
   console.log(req.body);
   var out = req.body;
-  res.send(quickSort(out));
+  res.send(quickSort(out, 0, out.length-1));
 });
 
 module.exports = router;
