@@ -192,6 +192,15 @@ else if(req.body.hasOwnProperty("circle") == true){
       }
     }
   }
+  if (child_x + child_radius < container_x || child_x - child_radius > container_px){
+    inside_area = 0;
+  }
+  else if (child_y + child_radius < container_y || child_y - child_radius > container_py){
+    inside_area = 0;
+  }
+  else{
+    inside_area = Math.PI * Math.pow(child_radius, 2);
+  }
   response = [(container_area - inside_area).toString()]
 }
 
