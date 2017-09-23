@@ -2,9 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-<<<<<<< HEAD
-router.post('/', function(req, res, next) {
-=======
 router.post('/heist', function(req, res, next) {
   var max = req.body.maxWeight
   var q = 0;
@@ -53,7 +50,6 @@ router.post('/heist', function(req, res, next) {
   var response = { "heist" : heist }
 
   res.status(200).send(response);
->>>>>>> 02fdd75be07c7ef2d87366937f9f7fcb902c2cf6
 
 });
 
