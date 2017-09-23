@@ -15,6 +15,7 @@ router.post('/releaseSchedule', function(req, res, next) {
     second =  parseInt(string_input.slice(17, 19));
     millisecond = parseInt(string_input.slice(20, 23));
     offset_val = offset(string_input);
+    console.log(offset_val);
     hour = hour - offset_val;
     if (hour < 0){
       day = day - 1;
@@ -30,7 +31,7 @@ router.post('/releaseSchedule', function(req, res, next) {
       offset_val = 0;
     }
     else{
-      offset_val = parseInt(string_input[25]);
+      offset_val = parseInt(string_input.slice(24,26));
     }
     if (string_input[23] == '-'){
       return 0 - offset_val;
@@ -70,11 +71,11 @@ router.post('/releaseSchedule', function(req, res, next) {
   }
 
   //Output the initial param & tasks timeframes
-  console.log(initial_tf.start + "   " + initial_tf.end);
+  /*console.log(initial_tf.start + "   " + initial_tf.end);
   for (var i = 0; i < tasks.length; i++){
     console.log(tasks[i].start + "   " + tasks[i].end);
   }
-
+  */
   //Find the maximum vacant timeframe
   var max_len = 0;
 
@@ -128,8 +129,9 @@ router.post('/releaseSchedule', function(req, res, next) {
       break;
     }
   }
-  console.log(max_len.toString());
-  res.send(max_len.toString());
+  var max_num = max_len.toFixed(0);
+  console.log(max_num.toString());
+  res.send(max_num.toString());
 });
 
 module.exports = router;
