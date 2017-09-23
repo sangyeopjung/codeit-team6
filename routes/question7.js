@@ -88,6 +88,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
         }
 
     }
+  var response = [(container_area - (x_diff*y_diff)).toString()]
 }
 /*
 child_radius = req.body.circle.radius;
@@ -175,17 +176,22 @@ else if(req.body.hasOwnProperty("circle") == true){
     }
     if (num_vertices == 0){
       if (child_x <= container_px && child_x >= container_x && child_y <= container_py && child_y >= container_y){
-
+        inside_area = 0;
       }
       else{
-
+        inside_area = 0;
       }
     }
     else if (num_vertices == 1){
-      
+      if (child_x <= container_px && child_x >= container_x && child_y <= container_py && child_y >= container_y){
+        inside_area = 0;
+      }
+      else{
+        inside_area = 0;
+      }
     }
   }
-
+  var response = [(container_area - inside_area).toString()]
 }
 
       //comparing x coordinates
@@ -209,18 +215,9 @@ else if(req.body.hasOwnProperty("circle") == true){
       }
       */
 //    }else if(req.body.hasOwnProperty("circle") == true){
-console.log("container area " + container_area,
-            " container x " +  container_x,
-            " container y " +  container_y,
-            " container width " +  container_width,
-            " container height " +  container_height,      
-            " child x " +  child_x,
-            " child y " +  child_y,
-            " child width " +  child_width,
-            " child height " +  child_height,
-            "y - difference " + y_diff);
 
-  var response = [(container_area - (x_diff*y_diff)).toString()];
+
+
 //  res.send(response.toString());
   res.send(response);
 
