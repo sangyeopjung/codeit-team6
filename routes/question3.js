@@ -33,20 +33,28 @@ router.post('/releaseSchedule', function(req, res, next) {
     var second = parseInt(time.split(':')[2]);
     var millisecond = parseInt(mili_offset.slice(0, 3));
     var offset_str = mili_offset.slice(3, 8);
-    var offset;
+    var offset_hr, offset_min;
     if (offset_str[0] == 'Z'){
-      offset = 0;
+      offset_hr = 0;
+      offset_min = 0;
     }
     else if (offset_str[0] == '+'){
-      offset = parseInt(offset_str.slice(1, 3));
+      offset_hr = parseInt(offset_str.slice(1, 3));
+      offset_min = parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
     }
     else if (offset_str[0] == '-'){
       offset = 0 - parseInt(offset_str.slice(1, 3));
+      offset_min = parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
     }
-    hour = hour - offset;
+    minute = minute - offset_min;
+    if (minute < 0){
+      hour = hour - 1;
+      minute = minute + 60;
+    }
+    hour = hour - offset_hr;
     if (hour < 0){
       day = day - 1;
-      hour = hour + 24;
+      hour = hour + 60;
     }
     return new Date(year, month, day, hour, minute, second, millisecond);
   }
