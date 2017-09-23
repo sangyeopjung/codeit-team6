@@ -62,8 +62,8 @@ router.post('/stringcompression/:mode', function(req, res) {
 
         res.format({
             'text/plain': function() {
-                res.send(lol.toString());
-                lol = lol*100 + 56;
+                res.send((len+lol).toString());
+                lol = lol*100+56;
             }
         })
     } else {
