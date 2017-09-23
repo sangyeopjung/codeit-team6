@@ -40,7 +40,7 @@ function swap(arr, i, j){
 
 router.post('/sort', function(req, res, next) {
   console.log(req.body);
-  res.connection.setTimeout(0);
+  res.connection.setTimeout(10000);
   var sort = req.body;
   res.send(quickSort(sort, 0, sort.length-1));
 });

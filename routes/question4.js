@@ -7,8 +7,8 @@ router.post('/stringcompression/:mode', function(req, res) {
     var data = req.body.data;
     var mode = req.params.mode;
     console.log(data, mode);
+    var encoded = []
     if(mode == 'RLE') {
-        var encoded = [];
         var prev = data[0];
         var count = 1;
         for (var i = 1; i < data.length; i++) {
@@ -34,7 +34,7 @@ router.post('/stringcompression/:mode', function(req, res) {
             }
         });
     } else if (mode == 'LZW') {
-        var encoded = lzwcompress.pack(data);
+        encoded = lzwcompress.pack(data);
         var len = encoded.length * 12;
         res.format({
             'text/plain': function() {
