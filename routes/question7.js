@@ -16,6 +16,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
   var child_px, child_py;
   var x_diff, y_diff;
   var empty_area;
+  var response;
 
   if(req.body.hasOwnProperty("square") == true){
 //    child_area = Math.pow(req.body.square.width,2);
@@ -88,7 +89,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
         }
 
     }
-  var response = [(container_area - (x_diff*y_diff)).toString()]
+  response = [(container_area - (x_diff*y_diff)).toString()]
 }
 /*
 child_radius = req.body.circle.radius;
@@ -191,7 +192,7 @@ else if(req.body.hasOwnProperty("circle") == true){
       }
     }
   }
-  var response = [(container_area - inside_area).toString()]
+  response = [(container_area - inside_area).toString()]
 }
 
       //comparing x coordinates
