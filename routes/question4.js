@@ -1,5 +1,6 @@
 var express = require('express');
 var lzwcompress = require('lzwcompress');
+var _ = require('underscore');
 var router = express.Router();
 
 router.post('/stringcompression/:mode', function(req, res) {
@@ -41,7 +42,27 @@ router.post('/stringcompression/:mode', function(req, res) {
             }
         });
     } else if (mode == 'WDE') {
-        
+        var str = data.toString();
+
+        var word = str.split(' ');
+        var dict = [];
+        for (var i = 0; i < word.length; i++) {
+            if (!_.contains(dict, word[i]))
+                dict.push(word[i]);
+        }
+        var nospace = str.replace(/ /g, "");
+        var nonword = str.length - nospace.length;
+
+        var dictlen = dict.toString();
+        dictlen = dictlen.replace(/,/g, "");
+
+        var len = word.length*12 + nonword*12 + dictlen.length*8;
+
+        res.format({
+            'text/plain': function() {
+                res.send(len.toString());
+            }
+        })
     } else {
         res.sendStatus(400).send({"message":"Bad request"});
     }
