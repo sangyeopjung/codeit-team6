@@ -191,11 +191,19 @@ function countingSort(arr, min, max) {
     for (i=0; i < arr.length; i++) {
         count[arr[i]]++;
     }
-    for (i = max-1; i > min; i--) {
+    for (i = min; i <= max; i++) {
         while (count[i]-- > 0) {
             arr[z++] = i;
         }
     }
+
+    var n = arr.length;
+    for(var i = 0; i < n / 2; i++) {
+        var tmp = arr[i];
+        arr[i] = arr[n - i - 1];
+        arr[n - i - 1 ] = tmp;
+    }
+
     return arr;
 }
 
@@ -210,6 +218,8 @@ router.post('/sort', function(req, res, next) {
 
     for (var i = 0; i < sort.length; i++)
         sort[i] -= 10000;
+
+    console.log(sort);
     res.send(sort);
 });
 
