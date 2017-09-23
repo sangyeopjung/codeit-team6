@@ -8,31 +8,33 @@ router.post('/heist', function(req, res, next) {
   var vault = req.body.vault;
 
   if (vault.length == 0 || maxWeight == 0)
-    res.status(200).send({"heist":0});
+    res.send({"heist":0});
 
-  for (var i = 0; i < vault.length; i++) {
-    vault[i].efficiency = vault[i].value / vault[i].weight;
+  else {
+      for (var i = 0; i < vault.length; i++) {
+          vault[i].efficiency = vault[i].value / vault[i].weight;
+      }
+      vault = _.sortBy(vault, 'efficiency');
+      console.log(vault);
+      var index = vault.length - 1;
+      var cWeight = 0;
+      var heist = 0;
+      while (cWeight < maxWeight && index >= 0) {
+          if (vault[index].weight >= 1) {
+              heist += vault[index].efficiency;
+              cWeight++;
+              vault[index].weight--;
+          } else if (vault[index].weight > 0) {
+              heist += vault[index].efficiency * vault[index].weight;
+              cWeight += vault[index].weight;
+              vault[index].weight = 0;
+              index--;
+          } else {
+              index--;
+          }
+      }
+      res.send({"heist": heist});
   }
-  vault = _.sortBy(vault, 'efficiency');
-  console.log(vault);
-  var index = vault.length -1;
-  var cWeight = 0;
-  var heist = 0;
-  while (cWeight < maxWeight && index >= 0) {
-    if (vault[index].weight >= 1) {
-      heist += vault[index].efficiency;
-      cWeight++;
-      vault[index].weight--;
-    } else if (vault[index].weight > 0) {
-      heist += vault[index].efficiency * vault[index].weight;
-      cWeight += vault[index].weight;
-      vault[index].weight = 0;
-      index--;
-    } else {
-      index--;
-    }
-  }
-  res.status(200).send({"heist":heist});
 
   // var max = req.body.maxWeight;
   // var q = 0;
