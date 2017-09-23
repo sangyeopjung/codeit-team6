@@ -14,7 +14,7 @@
     "js-quicksort": "~2.0.0",
     "morgan": "~1.8.1",
     "quicksort": "^1.1.1",
-    "timsort":"~0.3.0",
+    "timsort": "~0.3.0",
     "lzwcompress": "~0.2.4",
     "serve-favicon": "~2.4.2",
     "underscore": "~1.8.3"
