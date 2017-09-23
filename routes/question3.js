@@ -43,9 +43,10 @@ router.post('/releaseSchedule', function(req, res, next) {
       offset_min = parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
     }
     else if (offset_str[0] == '-'){
-      offset = 0 - parseInt(offset_str.slice(1, 3));
+      offset_hr = 0 - parseInt(offset_str.slice(1, 3));
       offset_min = 0 - parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
     }
+    console.log(offset_hr + "--" + offset_min);
     minute = minute - offset_min;
     if (minute < 0){
       hour = hour - 1;
