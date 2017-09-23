@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var roots = require('quadratic-roots');
 
 /* GET users listing. */
 router.post('/calculateemptyarea', function(req, res, next) {
+  console.log(typeof(req.body.container));
   var container_width = req.body.container.width;
   var container_height = req.body.container.height;
   var container_area = container_width * container_height;
@@ -15,6 +17,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
   var child_px, child_py;
   var x_diff, y_diff;
   var empty_area;
+  var response;
 
   if(req.body.hasOwnProperty("square") == true){
 //    child_area = Math.pow(req.body.square.width,2);
@@ -87,8 +90,11 @@ router.post('/calculateemptyarea', function(req, res, next) {
         }
 
     }
+  response = [(container_area - (x_diff*y_diff)).toFixed(2)]
+  response = response.toString();
 }
 
+<<<<<<< HEAD
 
 
       //comparing x coordinates
@@ -125,8 +131,22 @@ console.log("container area " + container_area,
 
   var response = [(container_area - (x_diff*y_diff)).toString()];
 //  res.send(response.toString());
+=======
+  else if(req.body.hasOwnProperty("circle") == true){
+    if (child_x + child_radius < container_x || child_x - child_radius > container_px){
+      inside_area = 0;
+    }
+    else if (child_y + child_radius < container_y || child_y - child_radius > container_py){
+      inside_area = 0;
+    }
+    else{
+      inside_area = Math.PI * Math.pow(child_radius, 2);
+    }
+    response = [(container_area - inside_area).toFixed(2)]
+    response = response.toString();
+  }
+>>>>>>> f222d79273adc3f419d9d8dbdcc74931a3ce159d
   res.send(response);
-
 
 });
 
