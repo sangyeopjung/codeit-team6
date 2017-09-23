@@ -45,6 +45,9 @@ router.post('/releaseSchedule', function(req, res, next) {
     return time_gap/1000;
   }
 
+  //---------------Main Body-------------------------------------
+
+  //Set initial boundaries and param
   var info = req.body[0];
   var num_of_tasks = info.split(';')[0];
   var lower_bound = convertDate(info.split(';')[1]);
@@ -53,8 +56,8 @@ router.post('/releaseSchedule', function(req, res, next) {
     start: lower_bound,
     end: upper_bound
   };
-  //console.log(initial_tf.start + "   " + initial_tf.end);
-  //var available_timeframe = [initial_tf]; //Initialize the array of available timeframes
+
+  //Set array of tasks to run through
   var tasks = []
   for (var ti = 0; ti < num_of_tasks; ti++){
     var task = req.body[ti+1];
@@ -64,14 +67,51 @@ router.post('/releaseSchedule', function(req, res, next) {
     };
     tasks.push(task_timeframe);
   }
+
+  //Output the initial param & tasks timeframes
   console.log(initial_tf.start + "   " + initial_tf.end);
   for (var i = 0; i < tasks.length; i++){
     console.log(tasks[i].start + "   " + tasks[i].end);
   }
+
+  //Find the maximum vacant timeframe
   var max_len = 0;
+
+  //Initialize the starting point of time_run (working pointer)
   var time_run = initial_tf.start;
-  var g_flag = 0;
-  while(g_flag == 0){
+  console.log("Original: " + time_run);
+  for (var i = 0; i < tasks.length; i++){
+    if (time_run < tasks[i].end && time_run > tasks[i].start){
+      time_run = tasks[i].end;
+    }
+  }
+  console.log("Updated: " + time_run);
+
+  //Start the loop
+  console.log("Start Loop! \n");
+  while(true){
+    var next_timeframe = initial_tf.end;
+    var new_timerun;
+    //Find the next earliest starting timeframe
+    for (var i = 0; i < tasks.length; i++){
+      if (tasks[i].start < next_timeframe && tasks[i].start > time_run){
+        next_timeframe = tasks[i].start;
+        new_timerun = tasks[i].end;
+      }
+    }
+    console.log(next_timeframe)
+    var len = get_time_length(time_run, next_timeframe);
+    console.log("Length: " + len);
+    if (len > max_len){
+      max_len = len;
+    }
+    //Check case where there is no such timeframe in the initial param.
+    if (next_timeframe == initial_tf.end){
+      console.log("There exists no more timeframe inside the bound.")
+      break;
+    }
+    //Update the timerun, and perform extension of the timerun
+    time_run = new_timerun;
     console.log("Original: " + time_run);
     for (var i = 0; i < tasks.length; i++){
       if (time_run < tasks[i].end && time_run > tasks[i].start){
@@ -79,35 +119,12 @@ router.post('/releaseSchedule', function(req, res, next) {
       }
     }
     console.log("Updated: " + time_run);
-    var next_time = initial_tf.end;
-    var new_timerun;
-    for (var i = 0; i < tasks.length; i++){
-      if (tasks[i].start < next_time && tasks[i].start > time_run){
-        next_time = tasks[i].start;
-        new_timerun = tasks[i].end;
-      }
-    }
-    console.log(next_time)
-    var len = get_time_length(time_run, next_time);
-    console.log("Length: " + len);
-    if (len > max_len){
-      max_len = len;
-    }
-    time_run = new_timerun;
     console.log("New Timerun: " + time_run);
     console.log("------------------------------------------")
-    //Check if there are any remaining timeframes to check
-    var flag = 0;
-    for (var i = 0; i < tasks.length; i++){
-      if (tasks[i].start > time_run && tasks[i].start < initial_tf.end){
-        flag = 1;
-      }
-    }
-    if (flag == 0){
-      g_flag = 1;
-    }
-    else if (new_timerun > initial_tf.end){
-      g_flag = 1;
+    //Check if the new timerun exceeds the upper bound
+    if (time_run >= initial_tf.end){
+      console.log("The next timeframe exceeds the upper bound.")
+      break;
     }
   }
   /*for (var i = 0; i < available_timeframe.length; i++){
