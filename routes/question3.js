@@ -91,7 +91,7 @@ router.post('/releaseSchedule', function(req, res, next) {
   var max_len = 0;
   var time_run = initial_tf.start;
   var g_flag = 0;
-  while (g_flag == 0){
+  for (var j = 0; j < 500; j++){
     console.log("Original: " + time_run);
     for (var i = 0; i < tasks.length; i++){
       if (time_run < tasks[i].end && time_run > tasks[i].start){
@@ -119,14 +119,14 @@ router.post('/releaseSchedule', function(req, res, next) {
     console.log(initial_tf.end);
     //Check if there are any remaining timeframes to check
     var flag = 1;
-    for (var i = 0; i < tasks.length; i++){
+    /*for (var i = 0; i < tasks.length; i++){
       if (tasks[i].start > new_timerun && tasks[i].start < initial_tf.end){
         flag = 0;
       }
     }
     if (flag == 1){
       g_flag = 1;
-    }
+    }*/
   }
   /*for (var i = 0; i < available_timeframe.length; i++){
     console.log(i + ": " + available_timeframe[i].start + " -> " + available_timeframe[i].end);
