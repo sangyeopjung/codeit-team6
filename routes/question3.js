@@ -76,7 +76,6 @@ router.post('/releaseSchedule', function(req, res, next) {
     for (var i = 0; i < tasks.length; i++){
       if (time_run < tasks[i].end && time_run > tasks[i].start){
         time_run = tasks[i].end;
-
       }
     }
     console.log("Updated: " + time_run);
@@ -105,6 +104,9 @@ router.post('/releaseSchedule', function(req, res, next) {
       }
     }
     if (flag == 0){
+      g_flag = 1;
+    }
+    else if (new_timerun > initial_tf.end){
       g_flag = 1;
     }
   }
