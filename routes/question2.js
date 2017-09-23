@@ -15,10 +15,15 @@ router.post('/heist', function(req, res, next) {
   var cWeight = 0;
   var heist = 0;
   while (cWeight < maxWeight && index >= 0) {
-    if (vault[index].weight > 0) {
+    if (vault[index].weight >= 1) {
       heist += vault[index].efficiency;
       cWeight++;
       vault[index].weight--;
+    } else if (vault[index].weight > 0) {
+      heist += vault[index].efficiency * vault[index].weight;
+      cWeight += vault[index].weight;
+      vault[index].weight = 0;
+      index--;
     } else {
       index--;
     }
