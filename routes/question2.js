@@ -9,6 +9,8 @@ router.post('/heist', function(req, res, next) {
   var gasung = [];
   var heist = 0;
 
+  console.log(req.body);
+
   for (var i = 0; i < req.body.vault.length; i++) {
     gasung.push({
       "Weight" :  req.body.vault[i].weight,
@@ -29,7 +31,6 @@ router.post('/heist', function(req, res, next) {
   };
 
   gasung.sort(sort('Gasung', true, parseInt));
-  console.log(gasung);
 
   for(var w = 0; w < 10000; w++){
     if(t == gasung[q].Weight){
