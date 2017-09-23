@@ -1,9 +1,71 @@
 var express = require('express');
+var lzwcompress = require('lzwcompress');
+var _ = require('underscore');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.post('/stringcompression/:mode', function(req, res) {
+    var data = req.body.data;
+    var mode = req.params.mode;
+    console.log(data, mode);
+    if(mode == 'RLE') {
+        var encoded = [];
+        var prev = data[0];
+        var count = 1;
+        for (var i = 1; i < data.length; i++) {
+            if (data[i] != prev) {
+                encoded.push([count, prev]);
+                count = 1;
+                prev = data[i];
+            }
+            else
+                count ++;
+        }
+        encoded.push(count.toString());
+        encoded.push(prev.toString());
+        encoded = encoded.toString();
+        encoded = encoded.replace(/1/g, "");
+        encoded = encoded.replace(/,/g, "");
+
+        var len = encoded.length * 8;
+        res.format({
+            'text/plain': function() {
+                //res.send(encoded);
+                res.send(len.toString());
+            }
+        });
+    } else if (mode == 'LZW') {
+        var encoded = lzwcompress.pack(data);
+        var len = encoded.length * 12;
+        res.format({
+            'text/plain': function() {
+                res.send(len.toString());
+            }
+        });
+    } else if (mode == 'WDE') {
+        var str = data.toString();
+
+        var word = str.split(' ');
+        var dict = [];
+        for (var i = 0; i < word.length; i++) {
+            if (!_.contains(dict, word[i]))
+                dict.push(word[i]);
+        }
+        var nospace = str.replace(/ /g, "");
+        var nonword = str.length - nospace.length;
+
+        var dictlen = dict.toString();
+        dictlen = dictlen.replace(/,/g, "");
+
+        var len = word.length*12 + nonword*12 + dictlen.length*8;
+
+        res.format({
+            'text/plain': function() {
+                res.send(len.toString());
+            }
+        })
+    } else {
+        res.sendStatus(400).send({"message":"Bad request"});
+    }
 });
 
 module.exports = router;
