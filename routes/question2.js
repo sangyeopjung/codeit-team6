@@ -25,15 +25,16 @@ router.post('/heist', function(req, res, next) {
               cWeight++;
               vault[index].weight--;
           } else if (vault[index].weight > 0) {
-              heist += vault[index].efficiency * vault[index].weight;
+              heist += (vault[index].efficiency * vault[index].weight);
               cWeight += vault[index].weight;
               vault[index].weight = 0;
-              index--;
           } else {
               index--;
           }
       }
-      res.send({"heist": heist});
+      var msg = {"heist": heist};
+      console.log(msg);
+      res.send(msg);
   }
 
   // var max = req.body.maxWeight;
