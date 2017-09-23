@@ -6,7 +6,6 @@ var router = express.Router();
 router.post('/stringcompression/:mode', function(req, res) {
     var data = req.body.data;
     var mode = req.params.mode;
-    console.log(data, mode);
     var encoded = []
     if(mode == 'RLE') {
         var prev = data[0];
