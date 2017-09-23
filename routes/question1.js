@@ -140,7 +140,7 @@ router.post('/sort', function(req, res, next) {
       sort[i] += 10000;
   }
   //res.send(quickSort(sort, 0, sort.length-1));
-  sort = sortLSD(sort, 7);
+  sort = sortLSD(sort, 11);
     for (var i = 0; i < sort.length; i++) {
         sort[i] -= 10000;
     }
