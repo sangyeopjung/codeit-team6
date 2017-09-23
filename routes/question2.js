@@ -6,6 +6,10 @@ router.post('/heist', function(req, res, next) {
   console.log(req.body);
   var maxWeight = req.body.maxWeight;
   var vault = req.body.vault;
+
+  if (vault.length == 0)
+    res.status(200).send({"heist":0});
+
   for (var i = 0; i < vault.length; i++) {
     vault[i].efficiency = vault[i].value / vault[i].weight;
   }
