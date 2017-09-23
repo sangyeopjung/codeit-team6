@@ -31,7 +31,7 @@ router.post('/releaseSchedule', function(req, res, next) {
       offset_val = 0;
     }
     else{
-      offset_val = parseInt(string_input.slice(24,26)]);
+      offset_val = parseInt(string_input.slice(24,26));
     }
     if (string_input[23] == '-'){
       return 0 - offset_val;
