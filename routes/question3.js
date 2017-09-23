@@ -130,6 +130,7 @@ router.post('/releaseSchedule', function(req, res, next) {
     }
   }
   var max_num = max_len.toFixed(0);
+  console.log(max_num.toString());
   res.send(max_num.toString());
 });
 
