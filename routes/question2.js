@@ -3,7 +3,7 @@ var quickSort = require('js-quicksort')
 var router = express.Router();
 
 /* GET users listing. */
-router.post('/question2', function(req, res, next) {
+router.post('/heist', function(req, res, next) {
   var max = req.body.maxWeight
   var q = 0;
   var t = 0;
