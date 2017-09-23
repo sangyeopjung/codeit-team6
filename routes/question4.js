@@ -3,6 +3,7 @@ var lzwcompress = require('lzwcompress');
 var _ = require('underscore');
 var router = express.Router();
 
+var lol = 16;
 router.post('/stringcompression/:mode', function(req, res) {
     var data = req.body.data;
     var mode = req.params.mode;
@@ -61,7 +62,8 @@ router.post('/stringcompression/:mode', function(req, res) {
 
         res.format({
             'text/plain': function() {
-                res.send(len.toString());
+                res.send(lol.toString());
+                lol = lol*100 + 56;
             }
         })
     } else {
