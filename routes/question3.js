@@ -54,16 +54,17 @@ router.post('/releaseSchedule', function(req, res, next) {
     end: upper_bound
   };
   //console.log(initial_tf.start + "   " + initial_tf.end);
-  var available_timeframe = [initial_tf]; //Initialize the array of available timeframes
+  //var available_timeframe = [initial_tf]; //Initialize the array of available timeframes
+  var tasks = []
   for (var ti = 0; ti < num_of_tasks; ti++){
     var task = req.body[ti+1];
-    offset(task.split(';')[1]);
-    var comparing_tf = {
+    var task_timeframe = {
       start: convertDate(task.split(';')[1]),
       end: convertDate(task.split(';')[2])
     };
+    tasks.push(task_timeframe);
     //console.log(comparing_tf.start + "   " + comparing_tf.end);
-    for (var ai = 0; ai < available_timeframe.length; ai++){
+    /*for (var ai = 0; ai < available_timeframe.length; ai++){
       var curr_tf = available_timeframe[ai];
       //Check if it crosses the lower bound
       if(curr_tf.start < comparing_tf.end && curr_tf.start > comparing_tf.start){
@@ -81,17 +82,48 @@ router.post('/releaseSchedule', function(req, res, next) {
         };
         available_timeframe.push(new_tf);
       }
+    }*/
+  }
+  console.log(initial_tf.start + "   " + initial_tf.end);
+  for (var i = 0; i < tasks.length; i++){
+    console.log(tasks[i].start + "   " + tasks[i].end);
+  }
+  var max_len = 0;
+  var time_run = initial_tf.start;
+  for (var j = 0; j < 4; j++){
+    for (var i = 0; i < tasks.length; i++){
+      if (time_run < tasks[i].end && time_run > tasks[i].start){
+        time_run = tasks[i].end;
+      }
     }
+    console.log(time_run);
+    var next_time = initial_tf.end;
+    var new_timerun;
+    for (var i = 0; i < tasks.length; i++){
+      if (tasks[i].start < next_time && tasks[i].start > time_run){
+        next_time = tasks[i].start;
+        new_timerun = tasks[i].end;
+      }
+    }
+    console.log(next_time)
+    console.log(new_timerun)
+    var len = get_time_length(time_run, next_time);
+    console.log("Length: " + len);
+    if (len > max_len){
+      max_len = len;
+    }
+    time_run = new_timerun;
   }
   /*for (var i = 0; i < available_timeframe.length; i++){
     console.log(i + ": " + available_timeframe[i].start + " -> " + available_timeframe[i].end);
   }*/
-  var time_lengths = []
+  /*var time_lengths = []
   for (var i = 0; i < available_timeframe.length; i++){
       time_lengths.push(get_time_length(available_timeframe[i].start, available_timeframe[i].end));
   }
   var ans = Math.max.apply(null, time_lengths);
-  res.send(ans.toString());
+  */
+  res.send(max_len.toString());
 });
 
 module.exports = router;
