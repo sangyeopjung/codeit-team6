@@ -70,7 +70,7 @@ router.post('/releaseSchedule', function(req, res, next) {
   }
 
   //Output the initial param & tasks timeframes
-  // console.log(initial_tf.start + "   " + initial_tf.end);
+  console.log(initial_tf.start + "   " + initial_tf.end);
   for (var i = 0; i < tasks.length; i++){
     console.log(tasks[i].start + "   " + tasks[i].end);
   }
