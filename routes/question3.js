@@ -48,7 +48,7 @@ router.post('/releaseSchedule', function(req, res, next) {
     start: lower_bound,
     end: upper_bound
   };
-  console.log(initial_tf.start + "   " + initial_tf.end);
+  //console.log(initial_tf.start + "   " + initial_tf.end);
   var available_timeframe = [initial_tf]; //Initialize the array of available timeframes
   for (var ti = 0; ti < num_of_tasks; ti++){
     var task = req.body[ti+1];
@@ -57,7 +57,7 @@ router.post('/releaseSchedule', function(req, res, next) {
       start: convertDate(task.split(';')[1]),
       end: convertDate(task.split(';')[2])
     };
-    console.log(comparing_tf.start + "   " + comparing_tf.end);
+    //console.log(comparing_tf.start + "   " + comparing_tf.end);
     for (var ai = 0; ai < available_timeframe.length; ai++){
       var curr_tf = available_timeframe[ai];
       //Check if it crosses the lower bound
@@ -78,9 +78,9 @@ router.post('/releaseSchedule', function(req, res, next) {
       }
     }
   }
-  for (var i = 0; i < available_timeframe.length; i++){
+  /*for (var i = 0; i < available_timeframe.length; i++){
     console.log(i + ": " + available_timeframe[i].start + " -> " + available_timeframe[i].end);
-  }
+  }*/
   var time_lengths = []
   for (var i = 0; i < available_timeframe.length; i++){
       time_lengths.push(get_time_length(available_timeframe[i].start, available_timeframe[i].end));
