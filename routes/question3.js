@@ -44,7 +44,7 @@ router.post('/releaseSchedule', function(req, res, next) {
     }
     else if (offset_str[0] == '-'){
       offset = 0 - parseInt(offset_str.slice(1, 3));
-      offset_min = parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
+      offset_min = 0 - parseInt(offset_str[3]) * 10 + parseInt(offset_str[4]);
     }
     minute = minute - offset_min;
     if (minute < 0){
