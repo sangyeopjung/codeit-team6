@@ -9,12 +9,9 @@ router.post('/sort', function(req, res, next) {
   for (var i = 0; i < req.body.length; i++){
     input.push(req.body[i]);
   }
-  try {
-      var sort = quickSort(input);
-  } catch (err) {
-      console.log(err);
-  }
-  res.send(quickSort(input));
+  var sort = quickSort(input);
+  console.log(sort);
+  res.send(sort);
 });
 
 module.exports = router;
