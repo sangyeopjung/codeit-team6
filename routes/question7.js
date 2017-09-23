@@ -115,13 +115,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
 
 
 
-  var response = ["childpx " + child_px.toString(),
-                  "child_x " + child_x.toString(),
-                  "container_px " + container_px.toString(),
-                  "container_x " + container_x.toString(),
-                "x - difference " + x_diff.toString(),
-                "y - difference " +  y_diff.toString(),
-              "Area " + (container_area - (x_diff*y_diff)).toString()]
+  var response = [(container_area - (x_diff*y_diff)).toString()]
 //  res.send(response.toString());
   res.send(response);
 
