@@ -32,7 +32,7 @@ router.post('/heist', function(req, res, next) {
               index--;
           }
       }
-      var msg = {"heist": heist};
+      var msg = {"heist": Math.round(heist*100)/100};
       console.log(msg);
       res.send(msg);
   }
