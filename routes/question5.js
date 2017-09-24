@@ -4,6 +4,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/horse-racing', function(req, res, next) {
+    console.log(req.body);
     var data = req.body;
     var horse = [];
     var jockey = [];
