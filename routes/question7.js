@@ -95,16 +95,165 @@ router.post('/calculateemptyarea', function(req, res, next) {
 }
 
   else if(req.body.hasOwnProperty("circle") == true){
+
     if (child_x + child_radius < container_x || child_x - child_radius > container_px){
       inside_area = 0;
+      response = [(container_area - inside_area).toFixed(2)]
     }
     else if (child_y + child_radius < container_y || child_y - child_radius > container_py){
       inside_area = 0;
+      response = [(container_area - inside_area).toFixed(2)]
+    }
+    else if (child_x - child_radius >= container_x && child_x + child_radius <= container_px && child_y - child_radius >= container_y && child_y + child_radius < container_py){
+      inside_area = Math.PI * Math.pow(child_radius, 2);
+      response = [(container_area - inside_area).toFixed(2)]
     }
     else{
-      inside_area = Math.PI * Math.pow(child_radius, 2);
+    var x_roots = [];
+    var y_roots = [];
+    var x1_count = 0, x2_count = 0, y1_count = 0, y2_count = 0;
+    //calculate roots for container_x
+    var b = -2 * child_y;
+    var c = Math.pow(child_y, 2) - Math.pow(child_radius, 2) + Math.pow((container_x - child_x), 2)
+    var curr_roots = roots(1, b, c);
+    console.log(curr_roots)
+    for (var i = 0; i < 2; i++){
+      if (curr_roots[i] <= container_py && curr_roots[i] >= container_y){
+        y_roots.push([container_x, curr_roots[i]]);
+        x1_count++;
+        console.log("1")
+      }
     }
-    response = [(container_area - inside_area).toFixed(2)]
+    //calculate roots for container_px
+    var b = -2 * child_y;
+    var c = Math.pow(child_y, 2) - Math.pow(child_radius, 2) + Math.pow((container_px - child_x), 2)
+    var curr_roots = roots(1, b, c);
+    for (var i = 0; i < 2; i++){
+      if (curr_roots[i] <= container_py && curr_roots[i] >= container_y){
+        y_roots.push([container_px, curr_roots[i]]);
+        x2_count++;
+      }
+    }
+    // calculate roots for container_y
+    var b = -2 * child_x;
+    var c = Math.pow(child_x, 2) - Math.pow(child_radius, 2) + Math.pow((container_y - child_y), 2)
+    var curr_roots = roots(1, b, c);
+    for (var i = 0; i < 2; i++){
+      if (curr_roots[i] <= container_px && curr_roots[i] >= container_x){
+        x_roots.push([curr_roots[i], container_y]);
+        y1_count++;
+        console.log("2")
+      }
+    }
+    // calculate roots for container_py
+    var b = -2 * child_x;
+    var c = Math.pow(child_x, 2) - Math.pow(child_radius, 2) + Math.pow((container_py - child_y), 2)
+    var curr_roots = roots(1, b, c);
+    for (var i = 0; i < 2; i++){
+      if (curr_roots[i] <= container_px && curr_roots[i] >= container_x){
+        x_roots.push([curr_roots[i], container_py]);
+        y2_count++;
+      }
+    }
+    for (var i = 0; i < x_roots.length; i++){
+      console.log("X-Roots: " + x_roots[i]);
+    }
+    for (var i = 0; i < y_roots.length; i++){
+      console.log("Y-Roots: " + y_roots[i]);
+    }
+    //Calculate number of vertices inside the circle
+    var vertices = [[container_x, container_y],[container_x, container_py],[container_px, container_y],[container_px, container_py]];
+    var num_vertices = 0;
+    var vertices_indicator = [0, 0, 0, 0]
+    for (var i = 0; i < 4; i++){
+      var distance = Math.sqrt(Math.pow(child_x - vertices[i][0], 2) + Math.pow(child_y - vertices[i][1], 2));
+      if (distance < child_radius){
+        num_vertices++;
+        vertices_indicator++;
+      }
+    }
+
+    function numerically_integrate(a, b, dx, f) {
+
+	// calculate the number of trapezoids
+	n = (b - a) / dx;
+
+	// define the variable for area
+	Area = 0;
+
+	//loop to calculate the area of each trapezoid and sum.
+	for (i = 1; i <= n; i++) {
+		//the x locations of the left and right side of each trapezpoid
+		x0 = a + (i-1)*dx;
+		x1 = a + i*dx;
+
+		// the area of each trapezoid
+		Ai = dx * (f(x0) + f(x1))/ 2.;
+
+		// cumulatively sum the areas
+		Area = Area + Ai
+
+	}
+	return Area;
+}
+function f1(x){
+	return Math.sqrt(Math.pow(child_radius, 2) - Math.pow((x - child_x), 2)) + child_y;
+}
+function g1(x){
+  return 0 - Math.sqrt(Math.pow(child_radius, 2) - Math.pow((x - child_x), 2)) + child_y;
+}
+function f2(x){
+	return Math.sqrt(Math.pow(child_radius, 2) - Math.pow((x - child_y), 2)) + child_x;
+}
+function g2(x){
+  return 0 - Math.sqrt(Math.pow(child_radius, 2) - Math.pow((x - child_y), 2)) + child_x;
+}
+    var area = 0;
+    if (num_vertices == 0){
+      if (y1_count == 2){
+        area += container_height * container_width;
+        area -= numerically_integrate(Math.min(x_roots[0][0], x_roots[1][0]), Math.max(x_roots[0][0], x_roots[1][0]), 0.0001, f1);
+      }
+      else if (y2_count == 2){
+        area += (Math.min(x_roots[0][0], x_roots[1][0]) - container_x) * container_height;
+        area += (container_px - Math.max(x_roots[0][0], x_roots[1][0])) * container_height;
+        area += numerically_integrate(Math.min(x_roots[0][0], x_roots[1][0]), Math.max(x_roots[0][0], x_roots[1][0]), 0.0001, g1);
+      }
+      else if (x1_count == 2){
+        area += container_height * container_width;
+        area -= numerically_integrate(Math.min(y_roots[0][1], y_roots[1][1]), Math.max(y_roots[0][1], y_roots[1][1]), 0.0001, f2);
+      }
+      else if (x2_count == 2){
+        area += (Math.min(y_roots[0][1], y_roots[1][1]) - container_y) * container_width;
+        console.log(area);
+        area += (container_py - Math.max(y_roots[0][1], y_roots[1][1])) * container_width;
+        console.log(area);
+        area += numerically_integrate(Math.min(y_roots[0][1], y_roots[1][1]), Math.max(y_roots[0][1], y_roots[1][1]), 0.0001, g2);
+        console.log(area);
+      }
+    }
+    else if (num_vertices == 1){
+      if (vertices_indicator[0] == 1){
+        area += container_height * container_width;
+        area -= numerically_integrate(container_x, x_roots[0][0], 0.0001, f1);
+      }
+      else if (vertices_indicator[1] == 1){
+        area += container_height * (container_px - x_roots[0][0]);
+        area -= numerically_integrate(container_x, x_roots[0][0], 0.0001, g1);
+      }
+      else if (vertices_indicator[2] == 2){
+        area += container_height * container_width;
+        area -= numerically_integrate(x_roots[0][0], container_px, 0.0001, f1);
+      }
+      else{
+        area += container_height * (x_roots[0][0] - container_x);
+        area -= numerically_integrate(x_roots[0][0], container_px, 0.0001, g1);
+      }
+    }
+    response = area.toFixed(2);
+    console.log(response);
+  }
+
     response = response.toString();
   }
   res.send(response);
