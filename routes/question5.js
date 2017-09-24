@@ -64,9 +64,7 @@ router.post('/horse-racing', function(req, res, next) {
         "horse": maxHorse.Name,
         "jockey": maxJockey.Name,
         "trainer": maxTrainer.Name
-    }
-    console.log(q1);
-    console.log(maxHorse.Name);
+    };
 
     ////////////////////////////////////////////
 
