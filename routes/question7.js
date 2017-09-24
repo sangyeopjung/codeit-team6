@@ -212,8 +212,8 @@ router.post('/calculateemptyarea', function(req, res, next) {
     var vertices_indicator = [0, 0, 0, 0]
     for (var i = 0; i < 4; i++){
       var distance = Math.sqrt(Math.pow(child_x - vertices[i][0], 2) + Math.pow(child_y - vertices[i][1], 2));
+      console.log(i + ": " + distance);
       if (distance < child_radius){
-        console.log(i + ": " + distance);
         num_vertices++;
         vertices_indicator[i]++;
       }
@@ -291,7 +291,7 @@ function g2(x){
         area += container_height * (container_px - x_roots[0][0]);
         area -= numerically_integrate(container_x, x_roots[0][0], 0.000001, g1);
       }
-      else if (vertices_indicator[2] == 2){
+      else if (vertices_indicator[2] == 1){
         console.log("2");
         area += container_height * container_width;
         area -= numerically_integrate(x_roots[0][0], container_px, 0.000001, f1);
