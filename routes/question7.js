@@ -4,7 +4,6 @@ var roots = require('quadratic-roots');
 
 /* GET users listing. */
 router.post('/calculateemptyarea', function(req, res, next) {
-  console.log(typeof(req.body.container));
   var container_width = req.body.container.width;
   var container_height = req.body.container.height;
   var container_area = container_width * container_height;
