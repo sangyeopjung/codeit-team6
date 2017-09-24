@@ -180,15 +180,15 @@ router.post('/horse-racing', function(req, res, next) {
     maxJockey = { "Wins" : 0 };
     maxTrainer = { "Wins" : 0 };
     for (var i = 0; i < horse.length; i++)
-        if (horse[i].Wins > maxHorse.Wins)
+        if ((horse[i].Wins > maxHorse.Wins) && (horse[i].Name != undefined))
             maxHorse = horse[i];
 
     for (var i = 0; i < jockey.length; i++)
-        if (jockey[i].Wins > maxJockey.Wins)
+        if ((jockey[i].Wins > maxJockey.Wins) && (jockey[i].Name != undefined))
             maxJockey = jockey[i];
 
     for (var i = 0; i < trainer.length; i++)
-        if (trainer[i].Wins > maxTrainer.Wins)
+        if ((trainer[i].Wins > maxTrainer.Wins) && (trainer[i].Name != undefined))
             maxTrainer = trainer[i];
 
     var q2 = {
