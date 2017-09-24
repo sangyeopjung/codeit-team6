@@ -211,7 +211,6 @@ router.post('/calculateemptyarea', function(req, res, next) {
     var vertices_indicator = [0, 0, 0, 0]
     for (var i = 0; i < 4; i++){
       var distance = Math.sqrt(Math.pow(child_x - vertices[i][0], 2) + Math.pow(child_y - vertices[i][1], 2));
-      console.log(i + ": " + distance)
       if (distance < child_radius){
         num_vertices++;
         vertices_indicator[i]++;
@@ -255,6 +254,7 @@ function g2(x){
 }
     var area = 0;
     if (num_vertices == 0){
+      console.log("num_vertices: 0");
       if (y1_count == 2){
         area += container_height * container_width;
         area -= numerically_integrate(Math.min(x_roots[0][0], x_roots[1][0]), Math.max(x_roots[0][0], x_roots[1][0]), 0.000001, f1);
@@ -278,6 +278,7 @@ function g2(x){
       }
     }
     else if (num_vertices == 1){
+      console.log("num_vertices: 1");
       if (vertices_indicator[0] == 1){
         console.log("0");
         area += container_height * container_width;
@@ -299,8 +300,11 @@ function g2(x){
         area -= numerically_integrate(x_roots[0][0], container_px, 0.000001, g1);
       }
     }
+    else{
+      console.log("not caught");
+    }
     response = area.toFixed(2);
-    console.log(response);
+    console.log("response: "+response);
   }
 
     response = response.toString();
