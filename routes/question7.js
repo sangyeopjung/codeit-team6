@@ -130,7 +130,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
       inside_area = 0;
       response = [(container_area - inside_area).toFixed(2)]
     }
-    else if (child_x - child_radius >= container_x && child_x + child_radius <= container_px && child_y - child_radius >= container_y && child_y + child_radius < container_py){
+    else if (child_x - child_radius >= container_x && child_x + child_radius <= container_px && child_y - child_radius >= container_y && child_y + child_radius <= container_py){
       inside_area = Math.PI * Math.pow(child_radius, 2);
       response = [(container_area - inside_area).toFixed(2)]
     }
