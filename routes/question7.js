@@ -121,7 +121,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
 //  res.send(response.toString());
   else if(req.body.hasOwnProperty("circle") == true){
     console.log("container_x: " + container_x + ", container_px: " + container_px + ", container_y: " + container_y + ", container_py: " + container_py)
-    console.log("circle_x: " + circle_x, ", circle_y: " + circle_y, ", circle_radius: " + circle_radius);
+    console.log("circle_x: " + child_x, ", circle_y: " + child_y, ", circle_radius: " + child_radius);
 
     if (child_x + child_radius < container_x || child_x - child_radius > container_px){
       inside_area = 0;
