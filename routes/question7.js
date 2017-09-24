@@ -213,7 +213,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
     for (var i = 0; i < 4; i++){
       var distance = Math.sqrt(Math.pow(child_x - vertices[i][0], 2) + Math.pow(child_y - vertices[i][1], 2));
       if (distance < child_radius){
-        console.log(i ": " + distance);
+        console.log(i + ": " + distance);
         num_vertices++;
         vertices_indicator[i]++;
       }
