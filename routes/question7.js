@@ -4,7 +4,6 @@ var roots = require('quadratic-roots');
 
 /* GET users listing. */
 router.post('/calculateemptyarea', function(req, res, next) {
-  console.log(typeof(req.body.container));
   var container_width = req.body.container.width;
   var container_height = req.body.container.height;
   var container_area = container_width * container_height;
@@ -121,6 +120,8 @@ router.post('/calculateemptyarea', function(req, res, next) {
 
 //  res.send(response.toString());
   else if(req.body.hasOwnProperty("circle") == true){
+    console.log("container_x: " + container_x + ", container_px: " + container_px + ", container_y: " + container_y + ", container_py: " + container_py)
+    console.log("circle_x: " + circle_x, ", circle_y: " + circle_y, ", circle_radius: " + circle_radius);
 
     if (child_x + child_radius < container_x || child_x - child_radius > container_px){
       inside_area = 0;
