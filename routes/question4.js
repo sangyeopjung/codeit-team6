@@ -27,7 +27,7 @@ router.post('/stringcompression/:mode', function(req, res) {
         encoded = encoded.toString();
         encoded = encoded.replace(/,/g, "");
 
-        var len = (encoded.length-1) * 8;
+        var len = (encoded.length-1) * 8 + 8;
         res.format({
             'text/plain': function() {
                 //res.send(encoded);
@@ -46,16 +46,16 @@ router.post('/stringcompression/:mode', function(req, res) {
         });
     } else if (mode == 'WDE') {
         console.log('wde', req.body.data)
-        var strArr = data.split(/(\s+)/);
+        var strArr = data.split(/([^A-Za-z])/);
         var dict = {};
         var numNonword = 0;
         var dictSize = 0;
         var numWord = 0;
 
-        console.log(req.body.data);
-        
+        console.log(strArr);
+
         for (var i = 0; i < strArr.length; i++){
-            if (/^[^\W\d\s]/.test(strArr[i])) {
+            if (/^[^A-Za-z]/.test(strArr[i]) ==  false) {
                 var currentWord = strArr[i];
                 if (currentWord in dict) {
                     dict["" + strArr[i]] += 1;
@@ -78,6 +78,7 @@ router.post('/stringcompression/:mode', function(req, res) {
                 res.send(len.toString());
             }
         })
+
     } else {
         res.sendStatus(400).send({"message":"Bad request"});
     }
