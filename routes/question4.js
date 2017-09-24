@@ -52,6 +52,8 @@ router.post('/stringcompression/:mode', function(req, res) {
         var dictSize = 0;
         var numWord = 0;
 
+        console.log(req.body.data);
+        
         for (var i = 0; i < strArr.length; i++){
             if (/^[^\W\d\s]/.test(strArr[i])) {
                 var currentWord = strArr[i];
