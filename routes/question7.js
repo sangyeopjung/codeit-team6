@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var roots = require('quadratic-roots');
+//var roots = require('quadratic-roots');
 
 /* GET users listing. */
 router.post('/calculateemptyarea', function(req, res, next) {
@@ -44,6 +44,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
   }else{
     child_area = 0;
   }
+
 
   if(req.body.hasOwnProperty("square") == true ||
     req.body.hasOwnProperty("rectangle") == true){
@@ -92,8 +93,33 @@ router.post('/calculateemptyarea', function(req, res, next) {
     }
   response = [(container_area - (x_diff*y_diff)).toFixed(2)]
   response = response.toString();
-}
+  }
 
+
+
+      //comparing x coordinates
+      /*
+      if(container_x < child_x){
+        x_diff = child_x - container_x;
+        if(container_y < child_y){
+          y_diff = child_y - container_y;
+        }else if(container_y => child_y){
+
+        }
+      }else if(container_x => child_x){
+        x_diff = container_x - child_x;
+        if(container_y < child_y){
+
+        }else if(container_y => child_y){
+          empty_area = container_area - (x_diff * y_diff);
+        }
+      }else{
+
+      }
+      */
+//    }else if(req.body.hasOwnProperty("circle") == true){
+
+//  res.send(response.toString());
   else if(req.body.hasOwnProperty("circle") == true){
 
     if (child_x + child_radius < container_x || child_x - child_radius > container_px){

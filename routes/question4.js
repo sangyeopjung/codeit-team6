@@ -69,7 +69,7 @@ router.post('/stringcompression/:mode', function(req, res) {
             dictSize += (8*word.length);
         }
 
-        var len = (numWord + numNonword) * 12 + dictSize + 88;
+        var len = (numWord + numNonword) * 12 + dictSize;
 
         res.format({
             'text/plain': function() {
