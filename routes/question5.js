@@ -4,8 +4,8 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/horse-racing', function(req, res, next) {
-    console.log(req.body);
-    var data = req.body;
+    console.log(req.body.data);
+    var data = req.body.data;
     var horse = [];
     var jockey = [];
     var trainer = [];
@@ -13,7 +13,7 @@ router.post('/horse-racing', function(req, res, next) {
         var contestant = data[i];
         if (contestant.Placing == 1) {
             var index = _.findWhere(horse, { "Name": contestant.Horse });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Horse != undefined)) {
                 horse.push({
                     "Index": horse.length,
                     "Name": data[i].Horse,
@@ -24,7 +24,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(jockey, { "Name": contestant.jockeycode });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].jockeycode != undefined)) {
                 jockey.push({
                     "Index": jockey.length,
                     "Name": data[i].jockeycode,
@@ -35,7 +35,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(trainer, { "Name": contestant.Trainer });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Trainer != undefined)) {
                 trainer.push({
                     "Index": trainer.length,
                     "Name": data[i].Trainer,
@@ -76,7 +76,7 @@ router.post('/horse-racing', function(req, res, next) {
         var contestant = data[i];
         if (contestant.Placing == 1) {
             var index = _.findWhere(horse, { "Name": contestant.Horse });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Horse != undefined)) {
                 horse.push({
                     "Index": horse.length,
                     "Name": data[i].Horse,
@@ -87,7 +87,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(jockey, { "Name": contestant.jockeycode });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].jockeycode != undefined)) {
                 jockey.push({
                     "Index": jockey.length,
                     "Name": data[i].jockeycode,
@@ -98,7 +98,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(trainer, { "Name": contestant.Trainer });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Trainer != undefined)) {
                 trainer.push({
                     "Index": trainer.length,
                     "Name": data[i].Trainer,
@@ -109,7 +109,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
         } else if (contestant.Placing == 2) {
             var index = _.findWhere(horse, { "Name": contestant.Horse });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Horse != undefined)) {
                 horse.push({
                     "Index": horse.length,
                     "Name": data[i].Horse,
@@ -120,7 +120,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(jockey, { "Name": contestant.jockeycode });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].jockeycode != undefined)) {
                 jockey.push({
                     "Index": jockey.length,
                     "Name": data[i].jockeycode,
@@ -131,7 +131,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(trainer, { "Name": contestant.Trainer });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Trainer != undefined)) {
                 trainer.push({
                     "Index": trainer.length,
                     "Name": data[i].Trainer,
@@ -142,7 +142,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
         } else if (contestant.Placing == 3) {
             var index = _.findWhere(horse, { "Name": contestant.Horse });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Horse != undefined)) {
                 horse.push({
                     "Index": horse.length,
                     "Name": data[i].Horse,
@@ -153,7 +153,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(jockey, { "Name": contestant.jockeycode });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].jockeycode != undefined)) {
                 jockey.push({
                     "Index": jockey.length,
                     "Name": data[i].jockeycode,
@@ -164,7 +164,7 @@ router.post('/horse-racing', function(req, res, next) {
             }
 
             index = _.findWhere(trainer, { "Name": contestant.Trainer });
-            if (index === undefined) {
+            if ((index === undefined ) && (data[i].Trainer != undefined)) {
                 trainer.push({
                     "Index": trainer.length,
                     "Name": data[i].Trainer,

@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
-//var roots = require('quadratic-roots');
+var roots = require('quadratic-roots');
 
 /* GET users listing. */
 router.post('/calculateemptyarea', function(req, res, next) {
-  console.log(typeof(req.body.container));
   var container_width = req.body.container.width;
   var container_height = req.body.container.height;
   var container_area = container_width * container_height;
@@ -121,6 +120,8 @@ router.post('/calculateemptyarea', function(req, res, next) {
 
 //  res.send(response.toString());
   else if(req.body.hasOwnProperty("circle") == true){
+    console.log("container_x: " + container_x + ", container_px: " + container_px + ", container_y: " + container_y + ", container_py: " + container_py)
+    console.log("circle_x: " + child_x, ", circle_y: " + child_y, ", circle_radius: " + child_radius);
 
     if (child_x + child_radius < container_x || child_x - child_radius > container_px){
       inside_area = 0;
@@ -141,19 +142,28 @@ router.post('/calculateemptyarea', function(req, res, next) {
     //calculate roots for container_x
     var b = -2 * child_y;
     var c = Math.pow(child_y, 2) - Math.pow(child_radius, 2) + Math.pow((container_x - child_x), 2)
-    var curr_roots = roots(1, b, c);
-    console.log(curr_roots)
+    var curr_roots;
+    if (b != 0){
+      curr_roots = roots(1, b, c);
+    }
+    else{
+      curr_roots = [c, -c]
+    }
     for (var i = 0; i < 2; i++){
       if (curr_roots[i] <= container_py && curr_roots[i] >= container_y){
         y_roots.push([container_x, curr_roots[i]]);
         x1_count++;
-        console.log("1")
       }
     }
     //calculate roots for container_px
     var b = -2 * child_y;
     var c = Math.pow(child_y, 2) - Math.pow(child_radius, 2) + Math.pow((container_px - child_x), 2)
-    var curr_roots = roots(1, b, c);
+    if (b != 0){
+      curr_roots = roots(1, b, c);
+    }
+    else{
+      curr_roots = [c, -c]
+    }
     for (var i = 0; i < 2; i++){
       if (curr_roots[i] <= container_py && curr_roots[i] >= container_y){
         y_roots.push([container_px, curr_roots[i]]);
@@ -163,18 +173,27 @@ router.post('/calculateemptyarea', function(req, res, next) {
     // calculate roots for container_y
     var b = -2 * child_x;
     var c = Math.pow(child_x, 2) - Math.pow(child_radius, 2) + Math.pow((container_y - child_y), 2)
-    var curr_roots = roots(1, b, c);
+    if (b != 0){
+      curr_roots = roots(1, b, c);
+    }
+    else{
+      curr_roots = [c, -c]
+    }
     for (var i = 0; i < 2; i++){
       if (curr_roots[i] <= container_px && curr_roots[i] >= container_x){
         x_roots.push([curr_roots[i], container_y]);
         y1_count++;
-        console.log("2")
       }
     }
     // calculate roots for container_py
     var b = -2 * child_x;
     var c = Math.pow(child_x, 2) - Math.pow(child_radius, 2) + Math.pow((container_py - child_y), 2)
-    var curr_roots = roots(1, b, c);
+    if (b != 0){
+      curr_roots = roots(1, b, c);
+    }
+    else{
+      curr_roots = [c, -c]
+    }
     for (var i = 0; i < 2; i++){
       if (curr_roots[i] <= container_px && curr_roots[i] >= container_x){
         x_roots.push([curr_roots[i], container_py]);
@@ -195,7 +214,7 @@ router.post('/calculateemptyarea', function(req, res, next) {
       var distance = Math.sqrt(Math.pow(child_x - vertices[i][0], 2) + Math.pow(child_y - vertices[i][1], 2));
       if (distance < child_radius){
         num_vertices++;
-        vertices_indicator++;
+        vertices_indicator[i]++;
       }
     }
 
@@ -236,48 +255,57 @@ function g2(x){
 }
     var area = 0;
     if (num_vertices == 0){
+      console.log("num_vertices: 0");
       if (y1_count == 2){
         area += container_height * container_width;
-        area -= numerically_integrate(Math.min(x_roots[0][0], x_roots[1][0]), Math.max(x_roots[0][0], x_roots[1][0]), 0.0001, f1);
+        area -= numerically_integrate(Math.min(x_roots[0][0], x_roots[1][0]), Math.max(x_roots[0][0], x_roots[1][0]), 0.000001, f1);
       }
       else if (y2_count == 2){
         area += (Math.min(x_roots[0][0], x_roots[1][0]) - container_x) * container_height;
         area += (container_px - Math.max(x_roots[0][0], x_roots[1][0])) * container_height;
-        area += numerically_integrate(Math.min(x_roots[0][0], x_roots[1][0]), Math.max(x_roots[0][0], x_roots[1][0]), 0.0001, g1);
+        area += numerically_integrate(Math.min(x_roots[0][0], x_roots[1][0]), Math.max(x_roots[0][0], x_roots[1][0]), 0.000001, g1);
       }
       else if (x1_count == 2){
         area += container_height * container_width;
-        area -= numerically_integrate(Math.min(y_roots[0][1], y_roots[1][1]), Math.max(y_roots[0][1], y_roots[1][1]), 0.0001, f2);
+        area -= numerically_integrate(Math.min(y_roots[0][1], y_roots[1][1]), Math.max(y_roots[0][1], y_roots[1][1]), 0.000001, f2);
       }
       else if (x2_count == 2){
         area += (Math.min(y_roots[0][1], y_roots[1][1]) - container_y) * container_width;
         console.log(area);
         area += (container_py - Math.max(y_roots[0][1], y_roots[1][1])) * container_width;
         console.log(area);
-        area += numerically_integrate(Math.min(y_roots[0][1], y_roots[1][1]), Math.max(y_roots[0][1], y_roots[1][1]), 0.0001, g2);
+        area += numerically_integrate(Math.min(y_roots[0][1], y_roots[1][1]), Math.max(y_roots[0][1], y_roots[1][1]), 0.000001, g2);
         console.log(area);
       }
     }
     else if (num_vertices == 1){
+      console.log("num_vertices: 1");
       if (vertices_indicator[0] == 1){
+        console.log("0");
         area += container_height * container_width;
-        area -= numerically_integrate(container_x, x_roots[0][0], 0.0001, f1);
+        area -= numerically_integrate(container_x, x_roots[0][0], 0.000001, f1);
       }
       else if (vertices_indicator[1] == 1){
+        console.log("1");
         area += container_height * (container_px - x_roots[0][0]);
-        area -= numerically_integrate(container_x, x_roots[0][0], 0.0001, g1);
+        area -= numerically_integrate(container_x, x_roots[0][0], 0.000001, g1);
       }
       else if (vertices_indicator[2] == 2){
+        console.log("2");
         area += container_height * container_width;
-        area -= numerically_integrate(x_roots[0][0], container_px, 0.0001, f1);
+        area -= numerically_integrate(x_roots[0][0], container_px, 0.000001, f1);
       }
       else{
+        console.log("3");
         area += container_height * (x_roots[0][0] - container_x);
-        area -= numerically_integrate(x_roots[0][0], container_px, 0.0001, g1);
+        area -= numerically_integrate(x_roots[0][0], container_px, 0.000001, g1);
       }
     }
+    else{
+      console.log("not caught");
+    }
     response = area.toFixed(2);
-    console.log(response);
+    console.log("response: "+response);
   }
 
     response = response.toString();
