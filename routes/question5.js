@@ -4,17 +4,19 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/horse-racing', function(req, res, next) {
+    console.log(req.body);
+    var data = req.body;
     var horse = [];
     var jockey = [];
     var trainer = [];
-    for (var i = 0; i < req.body.data.length; i++) {
-        var contestant = req.body.data[i];
+    for (var i = 0; i < data.length; i++) {
+        var contestant = data[i];
         if (contestant.Placing == 1) {
             var index = _.findWhere(horse, { "Name": contestant.Horse });
             if (index === undefined) {
                 horse.push({
                     "Index": horse.length,
-                    "Name": req.body.data[i].Horse,
+                    "Name": data[i].Horse,
                     "Wins": 1
                 });
             } else {
@@ -25,7 +27,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 jockey.push({
                     "Index": jockey.length,
-                    "Name": req.body.data[i].jockeycode,
+                    "Name": data[i].jockeycode,
                     "Wins": 1
                 });
             } else {
@@ -36,7 +38,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 trainer.push({
                     "Index": trainer.length,
-                    "Name": req.body.data[i].Trainer,
+                    "Name": data[i].Trainer,
                     "Wins": 1
                 });
             } else {
@@ -63,23 +65,21 @@ router.post('/horse-racing', function(req, res, next) {
         "horse": maxHorse.Name,
         "jockey": maxJockey.Name,
         "trainer": maxTrainer.Name
-    }
-    console.log(q1);
-    console.log(maxHorse.Name);
+    };
 
     ////////////////////////////////////////////
 
     horse = [];
     jockey = [];
     trainer = [];
-    for (var i = 0; i < req.body.data.length; i++) {
-        var contestant = req.body.data[i];
+    for (var i = 0; i < data.length; i++) {
+        var contestant = data[i];
         if (contestant.Placing == 1) {
             var index = _.findWhere(horse, { "Name": contestant.Horse });
             if (index === undefined) {
                 horse.push({
                     "Index": horse.length,
-                    "Name": req.body.data[i].Horse,
+                    "Name": data[i].Horse,
                     "Wins": 7
                 });
             } else {
@@ -90,7 +90,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 jockey.push({
                     "Index": jockey.length,
-                    "Name": req.body.data[i].jockeycode,
+                    "Name": data[i].jockeycode,
                     "Wins": 7
                 });
             } else {
@@ -101,7 +101,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 trainer.push({
                     "Index": trainer.length,
-                    "Name": req.body.data[i].Trainer,
+                    "Name": data[i].Trainer,
                     "Wins": 7
                 });
             } else {
@@ -112,7 +112,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 horse.push({
                     "Index": horse.length,
-                    "Name": req.body.data[i].Horse,
+                    "Name": data[i].Horse,
                     "Wins": 3
                 });
             } else {
@@ -123,7 +123,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 jockey.push({
                     "Index": jockey.length,
-                    "Name": req.body.data[i].jockeycode,
+                    "Name": data[i].jockeycode,
                     "Wins": 3
                 });
             } else {
@@ -134,7 +134,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 trainer.push({
                     "Index": trainer.length,
-                    "Name": req.body.data[i].Trainer,
+                    "Name": data[i].Trainer,
                     "Wins": 3
                 });
             } else {
@@ -145,7 +145,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 horse.push({
                     "Index": horse.length,
-                    "Name": req.body.data[i].Horse,
+                    "Name": data[i].Horse,
                     "Wins": 1
                 });
             } else {
@@ -156,7 +156,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 jockey.push({
                     "Index": jockey.length,
-                    "Name": req.body.data[i].jockeycode,
+                    "Name": data[i].jockeycode,
                     "Wins": 1
                 });
             } else {
@@ -167,7 +167,7 @@ router.post('/horse-racing', function(req, res, next) {
             if (index === undefined) {
                 trainer.push({
                     "Index": trainer.length,
-                    "Name": req.body.data[i].Trainer,
+                    "Name": data[i].Trainer,
                     "Wins": 1
                 });
             } else {
@@ -199,11 +199,13 @@ router.post('/horse-racing', function(req, res, next) {
 
     //////////////////////////////////////////////
 
-    res.send({
+    var out = {
         "q1": q1,
         "q2": q2,
         "q3": ""
-    });
+    };
+    console.log(out);
+    res.send(out);
 
 
 //   var horseplace = [{
