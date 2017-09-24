@@ -1,7 +1,6 @@
 var express = require('express');
 var lzwcompress = require('lzwcompress');
 var _ = require('underscore');
-var asciiStringSplit = require('ascii-string-split');
 var router = express.Router();
 
 router.post('/stringcompression/:mode', function(req, res) {
@@ -53,8 +52,6 @@ router.post('/stringcompression/:mode', function(req, res) {
         var dictSize = 0;
         var numWord = 0;
 
-        // var charac = (asciiStringSplit(req.body.data, 2));
-        // console.log(charac);
         console.log(strArr);
 
         for (var i = 0; i < strArr.length; i++){
