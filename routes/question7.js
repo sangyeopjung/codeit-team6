@@ -289,7 +289,9 @@ function g2(x){
       else if (vertices_indicator[1] == 1){
         console.log("1");
         area += container_height * (container_px - x_roots[0][0]);
-        area -= numerically_integrate(container_x, x_roots[0][0], 0.000001, g1);
+        console.log(area);
+        area += numerically_integrate(container_x, x_roots[0][0], 0.000001, g1);
+        console.log(area);
       }
       else if (vertices_indicator[2] == 1){
         console.log("2");
@@ -299,7 +301,7 @@ function g2(x){
       else{
         console.log("3");
         area += container_height * (x_roots[0][0] - container_x);
-        area -= numerically_integrate(x_roots[0][0], container_px, 0.000001, g1);
+        area += numerically_integrate(x_roots[0][0], container_px, 0.000001, g1);
       }
     }
     else{
